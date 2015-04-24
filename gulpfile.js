@@ -35,7 +35,7 @@ gulp.task('js', function() {
     gulp.src(jsFiles)
         .pipe($.uglify())
         .pipe($.concat('script.js'))
-        .pipe(gulp.dest('/build/'));
+        .pipe(gulp.dest('build/'));
 });
 
 // Javascript build development
@@ -49,7 +49,7 @@ gulp.task('jsDev', function() {
             }
         }))
         .pipe($.concat('script.js'))
-        .pipe(gulp.dest('/build/'));
+        .pipe(gulp.dest('build/'));
 });
 
 
@@ -67,7 +67,7 @@ gulp.task('sass', function () {
             cascade: false
         }))
         .pipe($.minifyCss())
-        .pipe(gulp.dest('/build/'));
+        .pipe(gulp.dest('build/'));
 });
 
 // SASS Development
@@ -84,7 +84,7 @@ gulp.task('sassDev', function () {
             browsers: ['last 2 versions'],
             cascade: false
         }))
-        .pipe(gulp.dest('/build/'))
+        .pipe(gulp.dest('build/'))
         .pipe($.filter('*.css'))
         .pipe(browserSync.reload({stream:true}));
 });
