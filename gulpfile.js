@@ -35,7 +35,7 @@ gulp.task('js', function() {
     gulp.src(jsFiles)
         .pipe($.uglify())
         .pipe($.concat('script.js'))
-        .pipe(gulp.dest('/'));
+        .pipe(gulp.dest('/build/'));
 });
 
 // Javascript build development
@@ -49,7 +49,7 @@ gulp.task('jsDev', function() {
             }
         }))
         .pipe($.concat('script.js'))
-        .pipe(gulp.dest('/'));
+        .pipe(gulp.dest('/build/'));
 });
 
 
@@ -67,7 +67,7 @@ gulp.task('sass', function () {
             cascade: false
         }))
         .pipe($.minifyCss())
-        .pipe(gulp.dest('/'));
+        .pipe(gulp.dest('/build/'));
 });
 
 // SASS Development
@@ -84,7 +84,7 @@ gulp.task('sassDev', function () {
             browsers: ['last 2 versions'],
             cascade: false
         }))
-        .pipe(gulp.dest('/'))
+        .pipe(gulp.dest('/build/'))
         .pipe($.filter('*.css'))
         .pipe(browserSync.reload({stream:true}));
 });
@@ -100,7 +100,7 @@ gulp.task('build', ['js', 'sass']);
 
 // Build then add and commit
 gulp.task('commit', ['build'], function(){
-    gulp.src(['script.js', 'style.css'])
+    gulp.src(['build/script.js', 'build/style.css'])
         .pipe($.git.add())
         .pipe($.git.commit('Build'));
 });
