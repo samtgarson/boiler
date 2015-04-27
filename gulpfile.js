@@ -24,7 +24,7 @@ gulp.task('browser-sync', function() {
       proxy: 'localhost:8080',
       open: false,
       minify: false,
-      files: ['script.js'],
+      files: ['*.html', 'script.js'],
       injectChanges: true
     });
 });
