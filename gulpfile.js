@@ -31,7 +31,7 @@ gulp.task('browser-sync', function() {
 
 
 // Javascript build
-gulp.task('js', function() {
+gulp.task('build:js', function() {
     gulp.src(jsFiles)
         .pipe($.uglify())
         .pipe($.concat('script.js'))
@@ -39,7 +39,7 @@ gulp.task('js', function() {
 });
 
 // Javascript build development
-gulp.task('jsDev', function() {
+gulp.task('develop:js', function() {
     gulp.src(jsFiles)
         .pipe($.uglify({
             'mangle': false,
@@ -55,7 +55,7 @@ gulp.task('jsDev', function() {
 
 
 // SASS build
-gulp.task('sass', function () {
+gulp.task('build:sass', function () {
     gulp.src('src/**/*.scss')
         .pipe($.cssGlobbing({
             extensions: ['.css', '.scss']
@@ -71,7 +71,7 @@ gulp.task('sass', function () {
 });
 
 // SASS Development
-gulp.task('sassDev', function () {
+gulp.task('develop:sass', function () {
     gulp.src('src/**/*.scss')
         .pipe($.plumber({
             errorHandler: $.notify.onError("<%= error.message %>")}))
@@ -97,24 +97,3 @@ gulp.task('default', ['connect', 'sassDev', 'jsDev', 'browser-sync'], function()
 
 // Build JS and SASS
 gulp.task('build', ['js', 'sass']);
-
-// Build then add and commit
-gulp.task('commit', ['build'], function(){
-    gulp.src(['build/script.js', 'build/style.css'])
-        .pipe($.git.add())
-        .pipe($.git.commit('Build'));
-});
-
-// Clear the git repo
-gulp.task('clean-git', function() {
-    gulp.src('.git')
-        .pipe($.clean());
-});
-
-// Make new repo with initial commit
-gulp.task('init', ['clean-git'], function() {
-    gulp.src('*')
-        .pipe($.git.init())
-        .pipe($.git.add())
-        .pipe($.git.comiit('init'));
-});
