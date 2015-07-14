@@ -90,10 +90,10 @@ gulp.task('develop:sass', function () {
 });
 
 // Set up watchers
-gulp.task('default', ['connect', 'sassDev', 'jsDev', 'browser-sync'], function() {
-    gulp.watch('./src/**/*.scss', ['sassDev']);
-    gulp.watch(jsFiles, ['jsDev']);
+gulp.task('default', ['connect', 'develop:sass', 'develop:js', 'browser-sync'], function() {
+    gulp.watch('./src/**/*.scss', ['develop:sass']);
+    gulp.watch(jsFiles, ['develop:js']);
 });
 
 // Build JS and SASS
-gulp.task('build', ['js', 'sass']);
+gulp.task('build', ['build:js', 'build:sass']);
