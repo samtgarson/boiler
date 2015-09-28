@@ -17,6 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "sprint.js": "*"
+    "sprint.js": "*",
+    "normalize-css": "*"
   }
 }

@@ -9,7 +9,15 @@ var gulp            = require('gulp'),
 
 
 // Define main 
-var jsFiles = mainBowerFiles().concat(['src/*/**/*.js']);
+var jsexp = new RegExp(/^.*\.js$/);
+var cssexp = new RegExp(/^.*\.css$/);
+var jsFiles = mainBowerFiles({filter: jsexp}).concat(['src/templates.js', 'src/*/**/*.js', 'src/app.js']);
+var cssFiles = mainBowerFiles({filter: cssexp}).concat(['src/**/*.scss']);
+
+gulp.task('print', function() {
+    console.log(jsFiles);
+    console.log(cssFiles);
+});
 
 // Run a local web server
 gulp.task('connect', function() {
@@ -56,7 +64,7 @@ gulp.task('develop:js', function() {
 
 // SASS build
 gulp.task('build:sass', function () {
-    gulp.src('src/**/*.scss')
+    gulp.src(cssFiles)
         .pipe($.cssGlobbing({
             extensions: ['.css', '.scss']
         }))
@@ -72,7 +80,7 @@ gulp.task('build:sass', function () {
 
 // SASS Development
 gulp.task('develop:sass', function () {
-    gulp.src('src/**/*.scss')
+    gulp.src(cssFiles)
         .pipe($.plumber({
             errorHandler: $.notify.onError("<%= error.message %>")}))
         .pipe($.cssGlobbing({
