@@ -8,9 +8,9 @@ var gulp            = require('gulp'),
     reload          = browserSync.reload;
 
 
-// Define main 
+// Define main
 var jsexp = new RegExp(/^.*\.js$/);
-var cssexp = new RegExp(/^.*\.css$/);
+var cssexp = new RegExp(/^.*\.s*css$/);
 var jsFiles = mainBowerFiles({filter: jsexp}).concat(['src/templates.js', 'src/*/**/*.js', 'src/app.js']);
 var cssFiles = mainBowerFiles({filter: cssexp}).concat(['src/**/*.scss']);
 
@@ -97,11 +97,24 @@ gulp.task('develop:sass', function () {
         .pipe(browserSync.reload({stream:true}));
 });
 
+// Generate index slim
+gulp.task('slim', function () {
+    gulp.src("src/**/*.slim")
+        .pipe($.plumber({
+            errorHandler: $.notify.onError("<%= error.message %>")}))
+        .pipe($.slim({
+            pretty: true,
+            options: ":attr_list_delims={'(' => ')', '[' => ']'}"
+        }))
+        .pipe(gulp.dest('./build'));
+});
+
 // Set up watchers
-gulp.task('default', ['connect', 'develop:sass', 'develop:js', 'browser-sync'], function() {
-    gulp.watch('./src/**/*.scss', ['develop:sass']);
+gulp.task('default', ['connect', 'develop:sass', 'develop:js', 'slim', 'browser-sync'], function() {
+    gulp.watch(cssFiles, ['develop:sass']);
     gulp.watch(jsFiles, ['develop:js']);
+    gulp.watch(["src/**/*.slim"], ['slim']);
 });
 
 // Build JS and SASS
-gulp.task('build', ['build:js', 'build:sass']);
+gulp.task('build', ['build:js', 'build:sass', 'slim']);
