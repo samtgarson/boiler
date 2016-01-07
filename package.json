@@ -7,7 +7,6 @@
     "gulp-clean": "*",
     "gulp-clone": "*",
     "gulp-concat": "*",
-    "gulp-connect": "*",
     "gulp-css-globbing": "*",
     "gulp-filter": "*",
     "gulp-git": "*",

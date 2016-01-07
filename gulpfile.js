@@ -19,17 +19,10 @@ gulp.task('print', function() {
     console.log(cssFiles);
 });
 
-// Run a local web server
-gulp.task('connect', function() {
-  $.connect.server({
-    root: [__dirname]
-  });
-});
-
 // Task for live injection
 gulp.task('browser-sync', function() {
     return browserSync({
-      proxy: 'localhost:8080',
+      server: 'build',
       open: false,
       minify: false,
       files: ['*.html', 'script.js'],
@@ -106,11 +99,12 @@ gulp.task('slim', function () {
             pretty: true,
             options: ":attr_list_delims={'(' => ')', '[' => ']'}"
         }))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest('./build'))
+        .pipe(browserSync.reload({stream:true}));
 });
 
 // Set up watchers
-gulp.task('default', ['connect', 'develop:sass', 'develop:js', 'slim', 'browser-sync'], function() {
+gulp.task('default', ['develop:sass', 'develop:js', 'slim', 'browser-sync'], function() {
     gulp.watch(cssFiles, ['develop:sass']);
     gulp.watch(jsFiles, ['develop:js']);
     gulp.watch(["src/**/*.slim"], ['slim']);
